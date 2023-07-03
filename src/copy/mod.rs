@@ -1,3 +1,15 @@
+mod animal;
+use animal::*;
+
+mod shape;
+use shape::*;
+
+mod value;
+use value::*;
+
+pub mod mytrait;
+use mytrait::*;
+
 // 演示copy/clone/swap 等
 // std::mem::swap 是目前系统的标准实现
 fn is_copy<T: Copy>() {}
@@ -104,5 +116,17 @@ mod tests {
         is_clone::<u32>();
         // is_copy::<String>(); // can't compile
         is_clone::<String>();
+    }
+
+    #[test]
+    fn test_is_type() {
+        use std::any::{Any, TypeId};
+
+        let val: u8 = 10;
+        println!("Type ID of u8: {:?}", val.type_id());
+        assert_eq!(val.type_id(), TypeId::of::<u8>());
+
+        let x = &true as &dyn Any;
+        assert!(x.is::<bool>());
     }
 }
